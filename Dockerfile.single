@@ -1,0 +1,21 @@
+# ==========================================
+# Dockerfile.single - Single-stage Build
+# Base image: node:18 (Full Debian-based image)
+# Không tối ưu layer caching và dung lượng
+# ==========================================
+
+FROM node:18
+
+WORKDIR /app
+
+# Copy toàn bộ source code cùng một lúc (vi phạm nguyên tắc Layer Caching)
+COPY . .
+
+# Cài đặt toàn bộ dependencies (bao gồm cả devDependencies và npm cache)
+RUN npm install
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+
+CMD ["node", "server.js"]
